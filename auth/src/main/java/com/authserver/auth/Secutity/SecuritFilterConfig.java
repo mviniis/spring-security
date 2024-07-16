@@ -1,4 +1,4 @@
-package com.authserver.auth;
+package com.authserver.auth.Secutity;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 

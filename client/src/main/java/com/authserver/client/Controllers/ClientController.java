@@ -1,6 +1,7 @@
 package com.authserver.client.Controllers;
 
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import reactor.core.publisher.Mono;
 
@@ -9,9 +10,16 @@ import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.client.annotation.RegisteredOAuth2AuthorizedClient;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @RestController
 public class ClientController {
+  WebClient webClient;
+
+  public ClientController(WebClient.Builder builder) {
+    this.webClient = builder.baseUrl("http://127.0.0.1:9090").build();
+  }
   
   @SuppressWarnings("null")
   @GetMapping("home")
@@ -29,5 +37,14 @@ public class ClientController {
       oidcUser.getIdToken().getTokenValue(), oidcUser.getClaims()
     ));
   }  
+
+  @GetMapping("tarefas")
+  public Mono<String> getTarefas(
+    @RegisteredOAuth2AuthorizedClient OAuth2AuthorizedClient client
+  ) {
+    return this.webClient.get().uri("tarefas")
+      .header("Authorization", "Bearer %s".formatted(client.getAccessToken().getTokenValue()))
+      .retrieve().bodyToMono(String.class);
+  }
 
 }

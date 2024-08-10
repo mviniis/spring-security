@@ -1,4 +1,4 @@
-package com.authserver.auth.Secutity;
+package com.authserver.auth.Security;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
@@ -13,7 +13,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 
 @Configuration
-public class SecuritFilterConfig {
+public class SecurityFilterConfig {
   
   @SuppressWarnings("removal")
   @Bean
